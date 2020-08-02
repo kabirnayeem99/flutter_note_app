@@ -21,7 +21,7 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/notepad.svg
+    - assets/images/
 
   fonts:
     - family: Caveat
