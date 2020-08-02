@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/constants.dart';
+import 'package:flutter_note_app/ui/screens/write_note_screen.dart';
 
 class NoNotesScreen extends StatelessWidget {
   const NoNotesScreen({
@@ -56,7 +57,14 @@ class NoNotesScreen extends StatelessWidget {
                 ),
               ),
               color: buttonColor,
-              onPressed: () => {},
+              onPressed: () => {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => WriteNoteScreen(),
+                  ),
+                ),
+              },
             ),
           ],
         ),
