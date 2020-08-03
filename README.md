@@ -9,7 +9,7 @@ A minimal cross-platform note-taking application built with Flutter.
 <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/WriteNoteScreen.png" height="400px"/> 
 
 ## Download
-<a href="https://github.com/kabirnayeem99/flutter_note_app/raw/master/build/app/outputs/apk/app.apk">
+<a href="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/app-release.apk">
 <img alt="Download Direct APK" src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/github-logo.png" height="50px"/></a> Download direct APK.
 
 ## App Icon
