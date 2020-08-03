@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: "Caveat", backgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,
       title: "Malusa - Note taking App",
-      home: NotesListScreen(),
+      home: NoNotesScreen(),
     );
   }
 }
