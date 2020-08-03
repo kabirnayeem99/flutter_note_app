@@ -20,6 +20,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
     var noteTitle = noteTitleEditingController.text;
 
     Note note = Note(
+
       title: noteTitle,
       noteBody: noteText,
     );

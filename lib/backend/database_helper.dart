@@ -5,6 +5,7 @@ import 'dart:async';
 import 'dart:io';
 
 class DatabaseHelper {
+//  Note note =
   /*
   In object-oriented programming, a singleton class is
   a class that can have only one object
@@ -55,5 +56,52 @@ class DatabaseHelper {
     await db.execute(
       "CREATE TABLE $noteTable($id INTEGER PRIMARY KEY AUTOINCREMENT, $title TEXT, $noteBody TEXT)",
     );
+  }
+
+  Future<List<Map<String, dynamic>>> getNoteMapList() async {
+    /*
+      same as select * from note_table;
+       */
+    Database db = await this.database;
+    Future<List<Map<String, dynamic>>> result = db.query(noteTable);
+    return result;
+  }
+
+  Future<int> addNoteToDb(Note note) async {
+    /*
+    add a note to the database by turning the note into a map
+    and returns its id
+     */
+    Database db = await this.database;
+    var result = await db.insert(noteTable, note.toMap());
+    return result;
+  }
+
+  Future<int> updateNoteInDb(Note note) async {
+    Database db = await this.database;
+    var result = await db.update(
+      noteTable,
+      note.toMap(),
+      where: "$id = ?",
+      whereArgs: [note.id],
+    );
+    return result;
+  }
+
+  Future<int> deleteNoteFromDb(int sid) async {
+    Database db = await this.database;
+    var result = await db.rawDelete("delete from $noteTable where $id = $sid");
+    return result;
+  }
+
+  Future<int> getCount() async {
+    /*
+    Total number of notes in the
+    database.
+     */
+    Database db = await this.database;
+    List<Map<String, dynamic>> allObjectsList = await db.query(noteTable);
+    int result = Sqflite.firstIntValue(allObjectsList);
+    return result;
   }
 }

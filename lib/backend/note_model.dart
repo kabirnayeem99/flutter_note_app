@@ -11,6 +11,11 @@ class Note {
   Note({
     @required this.title,
     @required this.noteBody,
+  });
+
+  Note.withId({
+    @required this.title,
+    @required this.noteBody,
     @required this.id,
   });
 
@@ -20,6 +25,9 @@ class Note {
     and will turn it into a map to submit it later to the db.
      */
     var map = Map<String, dynamic>();
+    if (id != null) {
+      map["id"] = this.id;
+    }
     map["title"] = this.title;
     map["noteBody"] = this.noteBody;
     return map;
