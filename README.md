@@ -1,4 +1,4 @@
-# MalUsa ![Build Status](https://github.com/kabirnayeem99/project_assets/passing.svg)
+# MalUsa ![Build Status](https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/passing.svg)
 
 <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/assets/images/notepad.svg" height="200px"/> <br>
 A minimal cross-platform note-taking application built with Flutter.
@@ -14,6 +14,7 @@ A minimal cross-platform note-taking application built with Flutter.
 
 ## App Icon
 Designed by [Christopher Gundersen](cgundersen2020@gmail.com)
+<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
 
 ## Translations
 * Spanish by [nanopc](https://github.com/nanopc) <br>
