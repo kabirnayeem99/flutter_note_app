@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/constants.dart';
 import 'package:flutter_note_app/ui/screens/write_note_screen.dart';
+import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
 
 class NoNotesScreen extends StatelessWidget {
   const NoNotesScreen({
@@ -17,11 +17,7 @@ class NoNotesScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Container(
-              height: 200,
-              width: 150,
-              child: Image.asset(logoImage),
-            ),
+            LogoImageTitle(height: 200, width: 150,),
             Center(
               child: Text(
                 "No notes !",
