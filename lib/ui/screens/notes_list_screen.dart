@@ -7,13 +7,14 @@ import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
 import 'package:flutter_note_app/ui/widgets/notes_list_tile.dart';
 import 'package:sqflite/sqflite.dart';
 
-
 class NotesListScreen extends StatefulWidget {
   @override
   _NotesListScreenState createState() => _NotesListScreenState();
 }
 
 class _NotesListScreenState extends State<NotesListScreen> {
+  DatabaseHelper databaseHelper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
 
@@ -35,7 +36,9 @@ class _NotesListScreenState extends State<NotesListScreen> {
               Icons.search,
               color: typedTextColor,
             ),
-            onPressed: () => {},
+            onPressed: () {
+              databaseHelper.getCount();
+            },
           ),
           IconButton(
             icon: Icon(
@@ -66,19 +69,25 @@ class _NotesListScreenState extends State<NotesListScreen> {
       body: SafeArea(
         child: Container(
           color: Colors.white,
-          child: ListView(
-            padding: const EdgeInsets.all(8),
-            children: <Widget>[
-              NoteListTile(),
-              NoteListTile(),
-              NoteListTile(),
-              NoteListTile(),
-              NoteListTile(),
-              NoteListTile(),
-              NoteListTile(),
-              NoteListTile(),
-            ],
-          ),
+          child: ListView.builder(
+            itemCount: 3,
+            itemBuilder: (BuildContext context, int index) {
+              return NoteListTile();
+            },
+          )
+//    ListView(
+//            padding: const EdgeInsets.all(8),
+//            children: <Widget>[
+//              NoteListTile(),
+//              NoteListTile(),
+//              NoteListTile(),
+//              NoteListTile(),
+//              NoteListTile(),
+//              NoteListTile(),
+//              NoteListTile(),
+//              NoteListTile(),
+//            ],
+//          ),
         ),
       ),
     );

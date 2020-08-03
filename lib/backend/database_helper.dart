@@ -64,6 +64,7 @@ class DatabaseHelper {
        */
     Database db = await this.database;
     Future<List<Map<String, dynamic>>> result = db.query(noteTable);
+    print(result);
     return result;
   }
 
@@ -102,6 +103,7 @@ class DatabaseHelper {
     Database db = await this.database;
     List<Map<String, dynamic>> allObjectsList = await db.query(noteTable);
     int result = Sqflite.firstIntValue(allObjectsList);
+    print(result);
     return result;
   }
 }

@@ -21,34 +21,34 @@ class WriteNoteField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: flex,
-      child: Container(
-        color: Colors.white,
-        child: TextField(
-          controller: controller,
-          maxLength: maxChar,
-          style: TextStyle(
-            fontWeight: fontWeight,
-            color: typedTextColor,
+    return Container(
+      color: Colors.white,
+      child: TextField(
+        onChanged: (value) {
+          print(value);
+        },
+        controller: controller,
+        maxLength: maxChar,
+        style: TextStyle(
+          fontWeight: fontWeight,
+          color: typedTextColor,
+          fontSize: size,
+        ),
+        cursorColor: cursorColor,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          focusedBorder: InputBorder.none,
+          contentPadding: EdgeInsets.symmetric(
+            vertical: 8.0,
+            horizontal: 24.0,
+          ),
+          hintText: hint,
+          hintStyle: TextStyle(
+            color: hintTextColor,
             fontSize: size,
           ),
-          cursorColor: cursorColor,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 8.0,
-              horizontal: 24.0,
-            ),
-            hintText: hint,
-            hintStyle: TextStyle(
-              color: hintTextColor,
-              fontSize: size,
-            ),
-          ),
-          maxLines: null,
         ),
+        maxLines: null,
       ),
     );
   }
