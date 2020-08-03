@@ -12,6 +12,10 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^0.1.3
+  # Embedded, SQL database engine.
+  sqflite: ^1.3.0
+  # Provides common operations for manipulating paths: joining, splitting, normalizing, etc.
+  path:
 
 dev_dependencies:
   flutter_test:

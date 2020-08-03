@@ -1,7 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/constants.dart';
+import 'package:flutter_note_app/ui/screens/notes_list_screen.dart';
 import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
+import 'package:flutter_note_app/ui/widgets/write_note_field.dart';
 
 class WriteNoteScreen extends StatefulWidget {
   @override
@@ -37,7 +38,9 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
               size: 27,
               color: navigationIconColor,
             ),
-            onPressed: () => {},
+            onPressed: () => {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => NotesListScreen(),))
+            },
           )
         ],
       ),
@@ -45,13 +48,16 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
         children: <Widget>[
           WriteNoteField(
             hint: "Title",
-            size: titleFontSize,
-            flex: 1,
+            size: 24,
+            flex: 2,
+            maxChar: 20,
+            fontWeight: FontWeight.w700,
           ),
           WriteNoteField(
             hint: "Your note goes here...",
             size: normalFontSize,
-            flex: 4,
+            flex: 5,
+            maxChar: 512,
           ),
         ],
       ),
@@ -59,46 +65,3 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
   }
 }
 
-class WriteNoteField extends StatelessWidget {
-  const WriteNoteField({
-    Key key,
-    @required this.hint,
-    @required this.size,
-    this.flex,
-  }) : super(key: key);
-
-  final String hint;
-  final double size;
-  final int flex;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      flex: flex,
-      child: Container(
-        color: Colors.white,
-        child: TextField(
-          style: TextStyle(
-            color: typedTextColor,
-            fontSize: size,
-          ),
-          cursorColor: cursorColor,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            focusedBorder: InputBorder.none,
-            contentPadding: EdgeInsets.symmetric(
-              vertical: 8.0,
-              horizontal: 24.0,
-            ),
-            hintText: hint,
-            hintStyle: TextStyle(
-              color: hintTextColor,
-              fontSize: size,
-            ),
-          ),
-          maxLines: null,
-        ),
-      ),
-    );
-  }
-}
