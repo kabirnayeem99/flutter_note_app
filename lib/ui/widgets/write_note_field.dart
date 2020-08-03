@@ -9,6 +9,7 @@ class WriteNoteField extends StatelessWidget {
     this.flex,
     this.maxChar,
     this.fontWeight,
+    this.controller,
   }) : super(key: key);
 
   final String hint;
@@ -16,6 +17,7 @@ class WriteNoteField extends StatelessWidget {
   final int flex;
   final int maxChar;
   final FontWeight fontWeight;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class WriteNoteField extends StatelessWidget {
       child: Container(
         color: Colors.white,
         child: TextField(
+          controller: controller,
           maxLength: maxChar,
           style: TextStyle(
             fontWeight: fontWeight,

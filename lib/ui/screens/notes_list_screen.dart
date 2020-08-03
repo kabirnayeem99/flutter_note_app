@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_note_app/backend/database_helper.dart';
+import 'package:flutter_note_app/backend/note_model.dart';
 import 'package:flutter_note_app/constants.dart';
+import 'package:flutter_note_app/ui/screens/write_note_screen.dart';
 import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
 import 'package:flutter_note_app/ui/widgets/notes_list_tile.dart';
+import 'package:sqflite/sqflite.dart';
+
 
 class NotesListScreen extends StatefulWidget {
   @override
@@ -11,6 +16,8 @@ class NotesListScreen extends StatefulWidget {
 class _NotesListScreenState extends State<NotesListScreen> {
   @override
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       appBar: AppBar(
         leading: Transform.scale(
@@ -46,7 +53,14 @@ class _NotesListScreenState extends State<NotesListScreen> {
           child: Icon(Icons.create),
           backgroundColor: buttonColor,
           elevation: 1,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => WriteNoteScreen(),
+              ),
+            );
+          },
         ),
       ),
       body: SafeArea(
