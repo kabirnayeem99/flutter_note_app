@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_note_app/backend/note_model.dart';
 import 'package:flutter_note_app/constants.dart';
 import 'package:flutter_note_app/ui/screens/write_note_screen.dart';
 import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
@@ -7,6 +8,15 @@ class NoNotesScreen extends StatelessWidget {
   const NoNotesScreen({
     Key key,
   }) : super(key: key);
+
+  navigateToWriteScreen(Note note, BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WriteNoteScreen(note),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +27,10 @@ class NoNotesScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            LogoImageTitle(height: 200, width: 150,),
+            LogoImageTitle(
+              height: 200,
+              width: 150,
+            ),
             Center(
               child: Text(
                 "No notes !",
@@ -53,14 +66,7 @@ class NoNotesScreen extends StatelessWidget {
                 ),
               ),
               color: buttonColor,
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => WriteNoteScreen(),
-                  ),
-                ),
-              },
+              onPressed: () => {navigateToWriteScreen(Note("", ""), context)},
             ),
           ],
         ),

@@ -106,4 +106,24 @@ class DatabaseHelper {
     print(result);
     return result;
   }
+
+  Future<List<Note>> getNoteList() async {
+    /*
+    this function will fetch the note map list 
+    and using for loop it will separeate each notemap 
+    and will create a list of notes after making these map
+    into note objects. 
+     */
+    var noteMapList = await getNoteMapList();
+    int count = noteMapList.length;
+    List<Note> noteList = List<Note>();
+
+    for (int eachNoteMapIndex = 0;
+        eachNoteMapIndex < count;
+        eachNoteMapIndex++) {
+      noteList.add(Note.fromMap(noteMapList[eachNoteMapIndex]));
+    }
+
+    return noteList;
+  }
 }

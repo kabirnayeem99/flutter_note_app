@@ -10,6 +10,7 @@ class WriteNoteField extends StatelessWidget {
     this.maxChar,
     this.fontWeight,
     this.controller,
+    this.onChangedFunction,
   }) : super(key: key);
 
   final String hint;
@@ -18,6 +19,7 @@ class WriteNoteField extends StatelessWidget {
   final int maxChar;
   final FontWeight fontWeight;
   final TextEditingController controller;
+  final Function onChangedFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class WriteNoteField extends StatelessWidget {
       color: Colors.white,
       child: TextField(
         onChanged: (value) {
+          onChangedFunction();
           print(value);
         },
         controller: controller,

@@ -14,11 +14,20 @@ class NotesListScreen extends StatefulWidget {
 
 class _NotesListScreenState extends State<NotesListScreen> {
   DatabaseHelper databaseHelper = DatabaseHelper();
+  int counter = 0;
+  List<Note> noteList;
+
+  void navigateToWriteNote(Note note) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WriteNoteScreen(note),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       appBar: AppBar(
         leading: Transform.scale(
@@ -57,24 +66,24 @@ class _NotesListScreenState extends State<NotesListScreen> {
           backgroundColor: buttonColor,
           elevation: 1,
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WriteNoteScreen(),
-              ),
-            );
+            navigateToWriteNote(Note("", ""));
           },
         ),
       ),
       body: SafeArea(
         child: Container(
-          color: Colors.white,
-          child: ListView.builder(
-            itemCount: 3,
-            itemBuilder: (BuildContext context, int index) {
-              return NoteListTile();
-            },
-          )
+            color: Colors.white,
+            child: ListView.builder(
+              itemCount: counter,
+              itemBuilder: (BuildContext context, int index) {
+                return NoteListTile(
+                  index: index,
+                  context: context,
+                  noteList: noteList,
+                  callFunction: updateListView(),
+                );
+              },
+            )
 //    ListView(
 //            padding: const EdgeInsets.all(8),
 //            children: <Widget>[
@@ -88,8 +97,28 @@ class _NotesListScreenState extends State<NotesListScreen> {
 //              NoteListTile(),
 //            ],
 //          ),
-        ),
+            ),
       ),
     );
+  }
+
+  updateListView() {
+    /*
+      wil call the singleton object
+      after getting the database i will then get the instance
+      of the notelist.
+      after getting the notelist i will update 
+      the vars of this class. 
+     */
+    final Future<Database> dbFuture = databaseHelper.initialiseDatabase();
+    dbFuture.then((database) {
+      Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
+      noteListFuture.then((noteList) {
+        setState(() {
+          this.noteList = noteList;
+          this.counter = noteList.length;
+        });
+      });
+    });
   }
 }

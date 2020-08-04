@@ -8,36 +8,78 @@ import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
 import 'package:flutter_note_app/ui/widgets/write_note_field.dart';
 
 class WriteNoteScreen extends StatefulWidget {
+  final Note note;
+  WriteNoteScreen(this.note);
   @override
-  _WriteNoteScreenState createState() => _WriteNoteScreenState();
+  _WriteNoteScreenState createState() => _WriteNoteScreenState(note);
 }
 
 class _WriteNoteScreenState extends State<WriteNoteScreen> {
   TextEditingController noteTitleEditingController = TextEditingController();
   TextEditingController noteBodyEditingController = TextEditingController();
   DatabaseHelper databaseHelper = DatabaseHelper();
+  Note note;
 
-  void saveNote() {
-//    var noteText = noteBodyEditingController.text;
-//    var noteTitle = noteTitleEditingController.text;
-//
-//
-//    databaseHelper.addNoteToDb(note);
-//
-//
-//    noteBodyEditingController.text = "";
-//    noteTitleEditingController.text =  "";
+  _WriteNoteScreenState(this.note);
 
+  int result;
+  void saveNote() async {
+    if (note.id != 0) {
+      result = await databaseHelper.updateNoteInDb(note);
+    } else {
+      result = await databaseHelper.addNoteToDb(note);
+    }
 
+    if (result != 0) {
+      _showAlertDialogue("Staus", "Note Saved");
+    } else {
+      _showAlertDialogue("Status", "Failed to Save Note");
+    }
   }
 
+  void deleteNote(noteid) async {
+    int result = await databaseHelper.deleteNoteFromDb(note.id);
+    if (note.id == null) {
+      _showAlertDialogue("Status", "No note was deleted");
+      return;
+    } else {
+      if (result != 0) {
+        _showAlertDialogue("Status", "Note was deleted successfully.");
+      } else {
+        _showAlertDialogue("Status", "Note was failed to be deleted.");
+      }
+    }
+  }
+
+  _showAlertDialogue(String title, String message) {
+    AlertDialog alertDialog = AlertDialog(
+      title: Text(title),
+      content: Text(message),
+    );
+    showDialog(
+      context: context,
+      builder: (_) => alertDialog,
+    );
+  }
+
+  saveTitle() {
+    // making the last edited text the title
+    note.title = noteTitleEditingController.text;
+  }
+
+  saveNoteBody() {
+    // making the last edited text the title
+    note.noteBody = noteBodyEditingController.text;
+  }
 
   @override
   Widget build(BuildContext context) {
-    databaseHelper.initialiseDatabase();
+    noteTitleEditingController.text = note.title;
+    noteBodyEditingController.text = note.noteBody;
+
     return WillPopScope(
+      // ignore: missing_return
       onWillPop: () {
-        // ignore: missing_return, missing_return
         Navigator.pop(context);
       },
       child: Scaffold(
@@ -62,20 +104,12 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
           ),
           actions: <Widget>[
             IconButton(
-              icon: Icon(
-                Icons.delete_outline,
-                size: 27,
-                color: navigationIconColor,
-              ),
-              onPressed: () => {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => NotesListScreen(),
-                  ),
+                icon: Icon(
+                  Icons.delete_outline,
+                  size: 27,
+                  color: navigationIconColor,
                 ),
-              },
-            ),
+                onPressed: () => {deleteNote(note.id)}),
             IconButton(
               icon: Icon(
                 Icons.save,
@@ -83,7 +117,9 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
                 color: navigationIconColor,
               ),
               onPressed: () => {
-
+                setState(() {
+                  saveNote();
+                })
               },
             )
           ],
@@ -91,7 +127,6 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
         body: Container(
           color: Colors.white,
           child: ListView(
-
             children: <Widget>[
               WriteNoteField(
                 controller: noteTitleEditingController,
@@ -100,6 +135,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
                 flex: 2,
                 maxChar: 20,
                 fontWeight: FontWeight.w700,
+                onChangedFunction: saveTitle(),
               ),
               WriteNoteField(
                 controller: noteBodyEditingController,
@@ -107,6 +143,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
                 size: normalFontSize,
                 flex: 5,
                 maxChar: 512,
+                onChangedFunction: saveNoteBody(),
               ),
             ],
           ),

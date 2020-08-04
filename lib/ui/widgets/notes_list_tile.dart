@@ -7,11 +7,29 @@ import 'package:sqflite/sqflite.dart';
 
 class NoteListTile extends StatelessWidget {
   const NoteListTile({
+    this.noteList,
+    this.index,
+    this.context,
+    this.callFunction,
     Key key,
   }) : super(key: key);
+  final int index;
+  final BuildContext context;
+  final List<Note> noteList;
+  final Function callFunction;
+
+  void navigateToWriteNote(Note note) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => WriteNoteScreen(note),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    callFunction();
     DatabaseHelper databaseHelper = DatabaseHelper();
     void _deleteNote(BuildContext context, Note note) async {
       int result = await databaseHelper.deleteNoteFromDb(note.id);
@@ -19,7 +37,7 @@ class NoteListTile extends StatelessWidget {
         Scaffold.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              "Note got deleted",
+              "$index Note got deleted",
               style: TextStyle(color: hintTextColor, fontFamily: "Caveat"),
             ),
             backgroundColor: Colors.white,
@@ -34,7 +52,7 @@ class NoteListTile extends StatelessWidget {
         Scaffold.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              "done",
+              "deleted",
               style: TextStyle(color: hintTextColor),
             ),
             backgroundColor: Colors.white,
@@ -46,20 +64,15 @@ class NoteListTile extends StatelessWidget {
         color: Colors.white,
         child: ListTile(
           onTap: () {
-            debugPrint("a note is  tapped");
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WriteNoteScreen(),
-              ),
-            );
+            debugPrint("$index th note is  tapped");
+            navigateToWriteNote(this.noteList[index]);
           },
           title: Text(
-            "Title",
+            noteList[index].title,
             style: TextStyle(color: typedTextColor, fontSize: 24),
           ),
           subtitle: Text(
-            "Subtitle of the note",
+            noteList[index].noteBody,
             style: TextStyle(color: hintTextColor, fontSize: 20),
           ),
           trailing: IconButton(
@@ -69,7 +82,7 @@ class NoteListTile extends StatelessWidget {
             ),
             iconSize: 20,
             onPressed: () {
-//              _deleteNote(context, noteList[index]);
+              _deleteNote(context, noteList[index]);
             },
           ),
         ),
