@@ -27,8 +27,8 @@ class WriteNoteField extends StatelessWidget {
       color: Colors.white,
       child: TextField(
         onChanged: (value) {
-          onChangedFunction();
           print(value);
+          onChangedFunction();
         },
         controller: controller,
         maxLength: maxChar,

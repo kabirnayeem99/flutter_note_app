@@ -2,7 +2,6 @@ import 'package:flutter_note_app/backend/note_model.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:async';
-import 'dart:io';
 
 class DatabaseHelper {
 //  Note note =
@@ -14,10 +13,10 @@ class DatabaseHelper {
    */
   static DatabaseHelper _databaseHelper; //singleton database helper
   static Database _database; //singleton database
-  String noteTable = "note_table";
+  String noteTable = "noteTable";
   String id = 'id';
   String title = 'title';
-  String noteBody = 'note_body';
+  String noteBody = 'noteBody';
   // Named constructor to create instance of database helper
   DatabaseHelper._createInstance();
   factory DatabaseHelper() {
@@ -40,7 +39,7 @@ class DatabaseHelper {
     path of the respective os database dir. and after creating
     it will create a table for storing the notes.
      */
-    String path = join(await getDatabasesPath(), 'note_schema.db');
+    String path = join(await getDatabasesPath(), 'noteSchema.db');
     final Future<Database> database = openDatabase(
       path,
       // Set the version. This executes the onCreate function and provides a
@@ -49,6 +48,7 @@ class DatabaseHelper {
       // When the database is first created, create a table to store notes.
       onCreate: createDatabase,
     );
+    print("database was initialised in $path");
     return database;
   }
 
@@ -56,6 +56,7 @@ class DatabaseHelper {
     await db.execute(
       "CREATE TABLE $noteTable($id INTEGER PRIMARY KEY AUTOINCREMENT, $title TEXT, $noteBody TEXT)",
     );
+    print("$noteTable was created");
   }
 
   Future<List<Map<String, dynamic>>> getNoteMapList() async {
@@ -75,6 +76,8 @@ class DatabaseHelper {
      */
     Database db = await this.database;
     var result = await db.insert(noteTable, note.toMap());
+    // rawInsert("INSERT into $noteTable($title, $noteBody) VALUES ("${note.title}", "${note.noteBody}");");
+    print('Note added: ${note.title} ${note.noteBody}');
     return result;
   }
 
@@ -86,6 +89,8 @@ class DatabaseHelper {
       where: "$id = ?",
       whereArgs: [note.id],
     );
+    print('$result > updated: ${note.title} ${note.noteBody}');
+
     return result;
   }
 
@@ -116,12 +121,14 @@ class DatabaseHelper {
      */
     var noteMapList = await getNoteMapList();
     int count = noteMapList.length;
-    List<Note> noteList = List<Note>();
+    List<Note> noteList = [];
 
-    for (int eachNoteMapIndex = 0;
-        eachNoteMapIndex < count;
-        eachNoteMapIndex++) {
-      noteList.add(Note.fromMap(noteMapList[eachNoteMapIndex]));
+    if (count != 0) {
+      for (int eachNoteMapIndex = 0;
+          eachNoteMapIndex < count;
+          eachNoteMapIndex++) {
+        noteList.add(Note.fromMap(noteMapList[eachNoteMapIndex]));
+      }
     }
 
     return noteList;

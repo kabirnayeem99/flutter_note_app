@@ -1,8 +1,3 @@
-import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
-
 class Note {
   String _title;
   String _noteBody;
@@ -14,7 +9,7 @@ class Note {
   );
 
   Note.withId(
-   this._title,
+    this._title,
     this._noteBody,
     this._id,
   );
@@ -36,13 +31,13 @@ class Note {
     below 20. This is much better than updating the number
     variable directly
      */
-    if(newTitle.length >=  20) {
+    if (newTitle.length >= 20) {
       this._title = newTitle;
     }
   }
 
   set noteBody(String updatedBody) {
-    if(updatedBody.length != 0 && updatedBody.length >= 255){
+    if (updatedBody.length != 0 && updatedBody.length >= 255) {
       this._noteBody = updatedBody;
     }
   }
@@ -57,7 +52,7 @@ class Note {
       map["id"] = this._id;
     }
     map["title"] = this._title;
-    map["note_body"] = this._noteBody;
+    map["noteBody"] = this._noteBody;
     return map;
   }
 

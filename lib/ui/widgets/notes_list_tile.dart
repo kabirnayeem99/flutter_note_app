@@ -3,7 +3,6 @@ import 'package:flutter_note_app/backend/database_helper.dart';
 import 'package:flutter_note_app/backend/note_model.dart';
 import 'package:flutter_note_app/constants.dart';
 import 'package:flutter_note_app/ui/screens/write_note_screen.dart';
-import 'package:sqflite/sqflite.dart';
 
 class NoteListTile extends StatelessWidget {
   const NoteListTile({
