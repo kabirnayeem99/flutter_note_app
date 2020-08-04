@@ -63,24 +63,6 @@ class _NotesListScreenState extends State<NotesListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> actionsList = [
-      IconButton(
-        icon: Icon(
-          Icons.search,
-          color: typedTextColor,
-        ),
-        onPressed: () {
-          databaseHelper.getCount();
-        },
-      ),
-      IconButton(
-        icon: Icon(
-          Icons.sort,
-          color: typedTextColor,
-        ),
-        onPressed: () => {},
-      ),
-    ];
     return Scaffold(
       appBar: AppBar(
         leading: Transform.scale(
@@ -98,6 +80,23 @@ class _NotesListScreenState extends State<NotesListScreen> {
       floatingActionButton: floatingActionButtonNote(context),
     );
   }
+
+  List<Widget> actionsList = [
+    IconButton(
+      icon: Icon(
+        Icons.search,
+        color: typedTextColor,
+      ),
+      onPressed: () {},
+    ),
+    IconButton(
+      icon: Icon(
+        Icons.sort,
+        color: typedTextColor,
+      ),
+      onPressed: () => {},
+    ),
+  ];
 
   Container floatingActionButtonNote(BuildContext context) {
     return Container(

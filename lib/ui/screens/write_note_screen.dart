@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/backend/database_helper.dart';
 import 'package:flutter_note_app/backend/note_model.dart';
@@ -21,38 +20,46 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
 
   _WriteNoteScreenState(this.note);
 
+  void navigateToLastScreen() {
+    Navigator.pop(context, true);
+  }
+
   int result;
   void saveNote() async {
-    result = await databaseHelper.addNoteToDb(note);
-    print("$result added  note to db");
-    // if (note.id != 0) {
-    //   result = await databaseHelper.updateNoteInDb(note);
-    // } else {
-    //   result = await databaseHelper.addNoteToDb(note);
-    // }
+    navigateToLastScreen();
+    int result;
+    if (note.id != null) {
+      // Case 1: Update operation
+      result = await databaseHelper.updateNoteInDb(note);
+    } else {
+      // Case 2: Insert Operation
+      result = await databaseHelper.addNoteToDb(note);
+    }
 
     if (result != 0) {
-      _showAlertDialogue("Staus", "Note Saved");
+      // Success
+      _showAlertDialog('Status', 'Note Saved Successfully');
     } else {
-      _showAlertDialogue("Status", "Failed to Save Note");
+      // Failure
+      _showAlertDialog('Status', 'Problem Saving Note');
     }
   }
 
   void deleteNote(noteid) async {
     int result = await databaseHelper.deleteNoteFromDb(note.id);
     if (note.id == null) {
-      _showAlertDialogue("Status", "No note was deleted");
+      _showAlertDialog("Status", "No note was deleted");
       return;
     } else {
       if (result != 0) {
-        _showAlertDialogue("Status", "Note was deleted successfully.");
+        _showAlertDialog("Status", "Note was deleted successfully.");
       } else {
-        _showAlertDialogue("Status", "Note was failed to be deleted.");
+        _showAlertDialog("Status", "Note was failed to be deleted.");
       }
     }
   }
 
-  _showAlertDialogue(String title, String message) {
+  _showAlertDialog(String title, String message) {
     AlertDialog alertDialog = AlertDialog(
       title: Text(title),
       content: Text(message),
@@ -81,7 +88,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
     return WillPopScope(
       // ignore: missing_return
       onWillPop: () {
-        Navigator.pop(context, true);
+        navigateToLastScreen();
       },
       child: Scaffold(
         appBar: AppBar(
@@ -94,7 +101,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
             iconSize: titleFontSize,
             onPressed: () {
               saveNote();
-              Navigator.pop(context, true);
+              navigateToLastScreen();
             },
           ),
           backgroundColor: Colors.white,
@@ -105,12 +112,17 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
           ),
           actions: <Widget>[
             IconButton(
-                icon: Icon(
-                  Icons.delete_outline,
-                  size: 27,
-                  color: navigationIconColor,
-                ),
-                onPressed: () => {deleteNote(note.id)}),
+              icon: Icon(
+                Icons.delete_outline,
+                size: 27,
+                color: navigationIconColor,
+              ),
+              onPressed: () {
+                setState(() {
+                  deleteNote(note.id);
+                });
+              },
+            ),
             IconButton(
               icon: Icon(
                 Icons.save,
@@ -129,22 +141,62 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
           color: Colors.white,
           child: ListView(
             children: <Widget>[
-              WriteNoteField(
-                controller: noteTitleEditingController,
-                hint: "Title",
-                size: 24,
-                flex: 2,
-                maxChar: 20,
-                fontWeight: FontWeight.w700,
-                onChangedFunction: saveTitle(),
+              Container(
+                color: Colors.white,
+                child: TextField(
+                  onChanged: (value) {
+                    print(value);
+                    saveTitle();
+                  },
+                  controller: noteTitleEditingController,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: typedTextColor,
+                    fontSize: 24,
+                  ),
+                  cursorColor: cursorColor,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 8.0,
+                      horizontal: 24.0,
+                    ),
+                    hintText: "Title ...",
+                    hintStyle: TextStyle(
+                      color: hintTextColor,
+                      fontSize: 24,
+                    ),
+                  ),
+                ),
               ),
-              WriteNoteField(
-                controller: noteBodyEditingController,
-                hint: "Your note goes here...",
-                size: normalFontSize,
-                flex: 5,
-                maxChar: 512,
-                onChangedFunction: saveNoteBody(),
+              Container(
+                color: Colors.white,
+                child: TextField(
+                  onChanged: (value) {
+                    print(value);
+                    saveNoteBody();
+                  },
+                  controller: noteBodyEditingController,
+                  style: TextStyle(
+                    color: typedTextColor,
+                    fontSize: 20,
+                  ),
+                  cursorColor: cursorColor,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 8.0,
+                      horizontal: 24.0,
+                    ),
+                    hintText: "Your note goes here ...",
+                    hintStyle: TextStyle(
+                      color: hintTextColor,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
