@@ -5,122 +5,137 @@ import 'package:flutter_note_app/constants.dart';
 import 'package:flutter_note_app/ui/screens/write_note_screen.dart';
 import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
 import 'package:flutter_note_app/ui/widgets/notes_list_tile.dart';
+import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NotesListScreen extends StatefulWidget {
+  NotesListScreen({Key key}) : super(key: key);
+
   @override
   _NotesListScreenState createState() => _NotesListScreenState();
 }
 
 class _NotesListScreenState extends State<NotesListScreen> {
   DatabaseHelper databaseHelper = DatabaseHelper();
-  int counter = 0;
-  List<Note> noteList;
+  Note note;
+  List<Note> noteList = [];
+  int count = 0;
 
-  void navigateToWriteNote(Note note) async {
-    await Navigator.push(
+  void _deleteNote(BuildContext context, Note note) async {
+    int result = await databaseHelper.deleteNoteFromDb(note.id);
+    if (result != 0) {
+      _showSnackBar(context, 'Note Deleted Successfully');
+      updateListView();
+    }
+  }
+
+  void _showSnackBar(BuildContext context, String message) {
+    final snackBar = SnackBar(content: Text(message));
+    Scaffold.of(context).showSnackBar(snackBar);
+  }
+
+  void updateListView() {
+    final Future<Database> dbFuture = databaseHelper.initialiseDatabase();
+    dbFuture.then((database) {
+      Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
+      noteListFuture.then((noteList) {
+        setState(() {
+          this.noteList = noteList;
+          this.count = noteList.length;
+          print("$noteList, ${noteList.length}");
+        });
+      });
+    });
+  }
+
+  void navigateToWriteNote(BuildContext context, Note note) async {
+    bool result = await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => WriteNoteScreen(note),
       ),
     );
+
+    if (result == true) {
+      updateListView();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    updateListView();
+    List<Widget> actionsList = [
+      IconButton(
+        icon: Icon(
+          Icons.search,
+          color: typedTextColor,
+        ),
+        onPressed: () {
+          databaseHelper.getCount();
+        },
+      ),
+      IconButton(
+        icon: Icon(
+          Icons.sort,
+          color: typedTextColor,
+        ),
+        onPressed: () => {},
+      ),
+    ];
     return Scaffold(
-        appBar: AppBar(
-          leading: Transform.scale(
-            scale: 0.5,
-            child: LogoImageTitle(
-              height: 23,
-              width: 23,
-            ),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 0.0,
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.search,
-                color: typedTextColor,
-              ),
-              onPressed: () {
-                databaseHelper.getCount();
-              },
-            ),
-            IconButton(
-              icon: Icon(
-                Icons.sort,
-                color: typedTextColor,
-              ),
-              onPressed: () => {},
-            ),
-          ],
-        ),
-        floatingActionButton: Container(
-          height: 48.0,
-          width: 48.0,
-          child: FloatingActionButton(
-            child: Icon(Icons.create),
-            backgroundColor: buttonColor,
-            elevation: 1,
-            onPressed: () {
-              navigateToWriteNote(Note("Untitled", "No body"));
-            },
+      appBar: AppBar(
+        leading: Transform.scale(
+          scale: 0.5,
+          child: LogoImageTitle(
+            height: 23,
+            width: 23,
           ),
         ),
-        body: ListView.builder(
-            itemCount: counter,
-            itemBuilder: (BuildContext context, int index) {
-              return Card(
-                child: Text("$index", style: TextStyle(color: Colors.red)),
-              );
-            }));
-    //     NoteListTile(
-    //       index: index,
-    //       context: context,
-    //       noteList: noteList,
-    // //       callFunction: updateListView(),
-    //     )
-    //   },
-    // )
-//    ListView(
-//            padding: const EdgeInsets.all(8),
-//            children: <Widget>[
-//              NoteListTile(),
-//              NoteListTile(),
-//              NoteListTile(),
-//              NoteListTile(),
-//              NoteListTile(),
-//              NoteListTile(),
-//              NoteListTile(),
-//              NoteListTile(),
-//            ],
-//          ),
-    //         ),
-    //   ),
-    // );
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        actions: actionsList,
+      ),
+      body: buildNoteListView(),
+      floatingActionButton: floatingActionButtonNote(context),
+    );
   }
 
-  updateListView() {
-    //   /*
-    //     wil call the singleton object
-    //     after getting the database i will then get the instance
-    //     of the notelist.
-    //     after getting the notelist i will update
-    //     the vars of this class.
-    //    */
-    //   final Future<Database> dbFuture = databaseHelper.initialiseDatabase();
-    //   dbFuture.then((database) {
-    //     Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
-    //     noteListFuture.then((noteList) {
-    //       setState(() {
-    //         this.noteList = noteList;
-    //         this.counter = noteList.length;
-    //       });
-    //     });
-    //   });
+  Container floatingActionButtonNote(BuildContext context) {
+    return Container(
+      height: 48.0,
+      width: 48.0,
+      child: FloatingActionButton(
+        child: Icon(Icons.create),
+        backgroundColor: buttonColor,
+        elevation: 1,
+        onPressed: () {
+          navigateToWriteNote(context, Note("", ""));
+        },
+      ),
+    );
+  }
+
+  ListView buildNoteListView() {
+    return ListView.builder(
+      itemCount: count,
+      itemBuilder: (context, index) {
+        return ListTile(
+          title: Text(noteList[index].title),
+          subtitle: Text(noteList[index].noteBody),
+          trailing: GestureDetector(
+            child: Icon(
+              Icons.delete,
+              color: Colors.grey,
+            ),
+            onTap: () {
+              _deleteNote(context, noteList[index]);
+            },
+          ),
+          onTap: () {
+            debugPrint("$index ListTile Tapped");
+            navigateToWriteNote(context, this.noteList[index]);
+          },
+        );
+      },
+    );
   }
 }

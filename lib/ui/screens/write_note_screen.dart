@@ -81,7 +81,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
     return WillPopScope(
       // ignore: missing_return
       onWillPop: () {
-        Navigator.pop(context);
+        Navigator.pop(context, true);
       },
       child: Scaffold(
         appBar: AppBar(
@@ -94,7 +94,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
             iconSize: titleFontSize,
             onPressed: () {
               saveNote();
-              Navigator.pop(context);
+              Navigator.pop(context, true);
             },
           ),
           backgroundColor: Colors.white,
