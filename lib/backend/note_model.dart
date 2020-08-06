@@ -9,9 +9,9 @@ class Note {
   );
 
   Note.withId(
+    this._id,
     this._title,
     this._noteBody,
-    this._id,
   );
 
   /*
@@ -31,13 +31,13 @@ class Note {
     below 20. This is much better than updating the number
     variable directly
      */
-    if (newTitle.length >= 20) {
+    if (newTitle.length <= 255) {
       this._title = newTitle;
     }
   }
 
   set noteBody(String updatedBody) {
-    if (updatedBody.length != 0 && updatedBody.length >= 255) {
+    if (updatedBody.length <= 255) {
       this._noteBody = updatedBody;
     }
   }
@@ -61,8 +61,8 @@ class Note {
     To show it in the ui, I need to take the db map and turn it
     into widgets.
      */
+    this._id = mapData["id"];
     this._title = mapData["title"];
     this._noteBody = mapData["noteBody"];
-    this._id = mapData["id"];
   }
 }

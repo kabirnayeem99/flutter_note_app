@@ -4,8 +4,6 @@ import 'package:flutter_note_app/backend/note_model.dart';
 import 'package:flutter_note_app/constants.dart';
 import 'package:flutter_note_app/ui/screens/write_note_screen.dart';
 import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
-import 'package:flutter_note_app/ui/widgets/notes_list_tile.dart';
-import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class NotesListScreen extends StatefulWidget {
@@ -30,7 +28,16 @@ class _NotesListScreenState extends State<NotesListScreen> {
   }
 
   void _showSnackBar(BuildContext context, String message) {
-    final snackBar = SnackBar(content: Text(message));
+    final snackBar = SnackBar(
+      backgroundColor: buttonColor,
+      content: Text(
+        message,
+        style: TextStyle(
+          fontFamily: "Caveat",
+          fontSize: 20,
+        ),
+      ),
+    );
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
@@ -49,20 +56,17 @@ class _NotesListScreenState extends State<NotesListScreen> {
   }
 
   void navigateToWriteNote(BuildContext context, Note note) async {
-    bool result = await Navigator.push(
+    await Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => WriteNoteScreen(note),
       ),
     );
-
-    if (result == true) {
-      updateListView();
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    updateListView();
     return Scaffold(
       appBar: AppBar(
         leading: Transform.scale(
@@ -118,8 +122,14 @@ class _NotesListScreenState extends State<NotesListScreen> {
       itemCount: count,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(noteList[index].title),
-          subtitle: Text(noteList[index].noteBody),
+          title: Text(
+            noteList[index].title,
+            style: TextStyle(fontSize: 24),
+          ),
+          subtitle: Text(
+            noteList[index].noteBody,
+            style: TextStyle(fontSize: 20),
+          ),
           trailing: GestureDetector(
             child: Icon(
               Icons.delete,

@@ -14,11 +14,13 @@ class DatabaseHelper {
   static DatabaseHelper _databaseHelper; //singleton database helper
   static Database _database; //singleton database
   String noteTable = "noteTable";
-  String id = 'id';
-  String title = 'title';
+  String colId = 'id';
+  String colTitle = 'title';
   String noteBody = 'noteBody';
+
   // Named constructor to create instance of database helper
   DatabaseHelper._createInstance();
+
   factory DatabaseHelper() {
     if (_databaseHelper == null) {
       _databaseHelper = DatabaseHelper._createInstance();
@@ -40,21 +42,21 @@ class DatabaseHelper {
     it will create a table for storing the notes.
      */
     String path = join(await getDatabasesPath(), 'noteSchema.db');
-    final Future<Database> database = openDatabase(
+    final Future<Database> noteDatabase = openDatabase(
       path,
       // Set the version. This executes the onCreate function and provides a
       // path to perform database upgrades and downgrades.
       version: 1,
       // When the database is first created, create a table to store notes.
-      onCreate: createDatabase,
+      onCreate: _createDatabase,
     );
-    print("database was initialised in $path");
-    return database;
+    print("noteDatabase was initialised in $path");
+    return noteDatabase;
   }
 
-  void createDatabase(Database db, int newVersion) async {
+  void _createDatabase(Database db, int newVersion) async {
     await db.execute(
-      "CREATE TABLE $noteTable($id INTEGER PRIMARY KEY AUTOINCREMENT, $title TEXT, $noteBody TEXT)",
+      "CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $noteBody TEXT)",
     );
     print("$noteTable was created");
   }
@@ -64,7 +66,7 @@ class DatabaseHelper {
       same as select * from note_table;
        */
     Database db = await this.database;
-    Future<List<Map<String, dynamic>>> result = db.query(noteTable);
+    var result = db.query(noteTable, orderBy: '$colId');
     print(result);
     return result;
   }
@@ -86,7 +88,7 @@ class DatabaseHelper {
     var result = await db.update(
       noteTable,
       note.toMap(),
-      where: "$id = ?",
+      where: "$colId = ?",
       whereArgs: [note.id],
     );
     print('$result > updated: ${note.title} ${note.noteBody}');
@@ -94,9 +96,10 @@ class DatabaseHelper {
     return result;
   }
 
-  Future<int> deleteNoteFromDb(int sid) async {
+  Future<int> deleteNoteFromDb(int id) async {
     Database db = await this.database;
-    var result = await db.rawDelete("delete from $noteTable where $id = $sid");
+    int result =
+        await db.rawDelete("delete from $noteTable where $colId = $id");
     return result;
   }
 
@@ -121,14 +124,12 @@ class DatabaseHelper {
      */
     var noteMapList = await getNoteMapList();
     int count = noteMapList.length;
-    List<Note> noteList = [];
+    List<Note> noteList = List<Note>();
 
-    if (count != 0) {
-      for (int eachNoteMapIndex = 0;
-          eachNoteMapIndex < count;
-          eachNoteMapIndex++) {
-        noteList.add(Note.fromMap(noteMapList[eachNoteMapIndex]));
-      }
+    for (int eachNoteMapIndex = 0;
+        eachNoteMapIndex < count;
+        eachNoteMapIndex++) {
+      noteList.add(Note.fromMap(noteMapList[eachNoteMapIndex]));
     }
 
     return noteList;

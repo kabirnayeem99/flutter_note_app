@@ -3,7 +3,6 @@ import 'package:flutter_note_app/backend/database_helper.dart';
 import 'package:flutter_note_app/backend/note_model.dart';
 import 'package:flutter_note_app/constants.dart';
 import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
-import 'package:flutter_note_app/ui/widgets/write_note_field.dart';
 
 class WriteNoteScreen extends StatefulWidget {
   final Note note;
@@ -20,13 +19,8 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
 
   _WriteNoteScreenState(this.note);
 
-  void navigateToLastScreen() {
-    Navigator.pop(context, true);
-  }
-
   int result;
   void saveNote() async {
-    navigateToLastScreen();
     int result;
     if (note.id != null) {
       // Case 1: Update operation
@@ -85,121 +79,115 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
     noteTitleEditingController.text = note.title;
     noteBodyEditingController.text = note.noteBody;
 
-    return WillPopScope(
-      // ignore: missing_return
-      onWillPop: () {
-        navigateToLastScreen();
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
-          leading: IconButton(
+    return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.keyboard_arrow_left,
+            color: navigationIconColor,
+          ),
+          iconSize: titleFontSize,
+          onPressed: () {
+            saveNote();
+            Navigator.pop(context);
+          },
+        ),
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        title: LogoImageTitle(
+          height: 23,
+          width: 23,
+        ),
+        actions: <Widget>[
+          IconButton(
             icon: Icon(
-              Icons.keyboard_arrow_left,
+              Icons.not_interested,
+              size: 27,
               color: navigationIconColor,
             ),
-            iconSize: titleFontSize,
             onPressed: () {
-              saveNote();
-              navigateToLastScreen();
+              setState(() {
+                deleteNote(note.id);
+              });
             },
           ),
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: LogoImageTitle(
-            height: 23,
-            width: 23,
-          ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(
-                Icons.delete_outline,
-                size: 27,
-                color: navigationIconColor,
-              ),
-              onPressed: () {
-                setState(() {
-                  deleteNote(note.id);
-                });
-              },
+          IconButton(
+            icon: Icon(
+              Icons.done,
+              size: 27,
+              color: navigationIconColor,
             ),
-            IconButton(
-              icon: Icon(
-                Icons.save,
-                size: 27,
-                color: navigationIconColor,
-              ),
-              onPressed: () => {
-                setState(() {
-                  saveNote();
-                })
-              },
-            )
-          ],
-        ),
-        body: Container(
-          color: Colors.white,
-          child: ListView(
-            children: <Widget>[
-              Container(
-                color: Colors.white,
-                child: TextField(
-                  onChanged: (value) {
-                    print(value);
-                    saveTitle();
-                  },
-                  controller: noteTitleEditingController,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    color: typedTextColor,
+            onPressed: () => {
+              setState(() {
+                saveNote();
+              })
+            },
+          )
+        ],
+      ),
+      body: Container(
+        color: Colors.white,
+        child: ListView(
+          children: <Widget>[
+            Container(
+              color: Colors.white,
+              child: TextField(
+                onChanged: (value) {
+                  print(value);
+                  saveTitle();
+                },
+                controller: noteTitleEditingController,
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: typedTextColor,
+                  fontSize: 24,
+                ),
+                cursorColor: cursorColor,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 24.0,
+                  ),
+                  hintText: "Title ...",
+                  hintStyle: TextStyle(
+                    color: hintTextColor,
                     fontSize: 24,
                   ),
-                  cursorColor: cursorColor,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 24.0,
-                    ),
-                    hintText: "Title ...",
-                    hintStyle: TextStyle(
-                      color: hintTextColor,
-                      fontSize: 24,
-                    ),
-                  ),
                 ),
               ),
-              Container(
-                color: Colors.white,
-                child: TextField(
-                  onChanged: (value) {
-                    print(value);
-                    saveNoteBody();
-                  },
-                  controller: noteBodyEditingController,
-                  style: TextStyle(
-                    color: typedTextColor,
+            ),
+            Container(
+              color: Colors.white,
+              child: TextField(
+                onChanged: (value) {
+                  print(value);
+                  saveNoteBody();
+                },
+                controller: noteBodyEditingController,
+                style: TextStyle(
+                  color: typedTextColor,
+                  fontSize: 20,
+                ),
+                cursorColor: cursorColor,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 24.0,
+                  ),
+                  hintText: "Your note goes here ...",
+                  hintStyle: TextStyle(
+                    color: hintTextColor,
                     fontSize: 20,
                   ),
-                  cursorColor: cursorColor,
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 8.0,
-                      horizontal: 24.0,
-                    ),
-                    hintText: "Your note goes here ...",
-                    hintStyle: TextStyle(
-                      color: hintTextColor,
-                      fontSize: 20,
-                    ),
-                  ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
