@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/backend/database_helper.dart';
-import 'package:flutter_note_app/ui/screens/initial_screen.dart';
+import 'package:flutter_note_app/ui/screens/notes_list_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: "Caveat", backgroundColor: Colors.white),
       debugShowCheckedModeBanner: false,
       title: "Malusa - Note taking App",
-      home: InitialScreen(),
+      home: NotesListScreen(),
     );
   }
 }

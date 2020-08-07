@@ -1,3 +1,4 @@
+import 'package:fleva_icons/fleva_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_note_app/backend/database_helper.dart';
 import 'package:flutter_note_app/backend/note_model.dart';
@@ -49,7 +50,6 @@ class _NotesListScreenState extends State<NotesListScreen> {
         setState(() {
           this.noteList = noteList;
           this.count = noteList.length;
-          print("$noteList, ${noteList.length}");
         });
       });
     });
@@ -68,6 +68,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
   Widget build(BuildContext context) {
     updateListView();
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         leading: Transform.scale(
           scale: 0.5,
@@ -88,18 +89,18 @@ class _NotesListScreenState extends State<NotesListScreen> {
   List<Widget> actionsList = [
     IconButton(
       icon: Icon(
-        Icons.search,
+        FlevaIcons.eye_outline,
         color: typedTextColor,
       ),
       onPressed: () {},
     ),
-    IconButton(
-      icon: Icon(
-        Icons.sort,
-        color: typedTextColor,
-      ),
-      onPressed: () => {},
-    ),
+    // IconButton(
+    //   icon: Icon(
+    //     FlevaIcons.,
+    //     color: typedTextColor,
+    //   ),
+    //   onPressed: () => {},
+    // ),
   ];
 
   Container floatingActionButtonNote(BuildContext context) {
@@ -107,7 +108,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
       height: 48.0,
       width: 48.0,
       child: FloatingActionButton(
-        child: Icon(Icons.create),
+        child: Icon(FlevaIcons.brush_outline),
         backgroundColor: buttonColor,
         elevation: 1,
         onPressed: () {
@@ -132,7 +133,7 @@ class _NotesListScreenState extends State<NotesListScreen> {
           ),
           trailing: GestureDetector(
             child: Icon(
-              Icons.delete,
+              FlevaIcons.trash_2_outline,
               color: Colors.grey,
             ),
             onTap: () {

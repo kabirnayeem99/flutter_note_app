@@ -3,6 +3,7 @@ import 'package:flutter_note_app/backend/database_helper.dart';
 import 'package:flutter_note_app/backend/note_model.dart';
 import 'package:flutter_note_app/constants.dart';
 import 'package:flutter_note_app/ui/widgets/logo_image_title.dart';
+import 'package:fleva_icons/fleva_icons.dart';
 
 class WriteNoteScreen extends StatefulWidget {
   final Note note;
@@ -84,12 +85,11 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(
-            Icons.keyboard_arrow_left,
+            FlevaIcons.arrow_ios_back,
             color: navigationIconColor,
           ),
           iconSize: titleFontSize,
           onPressed: () {
-            saveNote();
             Navigator.pop(context);
           },
         ),
@@ -102,7 +102,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.not_interested,
+              FlevaIcons.trash_2_outline,
               size: 27,
               color: navigationIconColor,
             ),
@@ -114,7 +114,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
           ),
           IconButton(
             icon: Icon(
-              Icons.done,
+              FlevaIcons.save_outline,
               size: 27,
               color: navigationIconColor,
             ),
@@ -133,6 +133,9 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
             Container(
               color: Colors.white,
               child: TextField(
+                maxLength: 40,
+                maxLengthEnforced: true,
+                maxLines: 1,
                 onChanged: (value) {
                   print(value);
                   saveTitle();
@@ -162,6 +165,7 @@ class _WriteNoteScreenState extends State<WriteNoteScreen> {
             Container(
               color: Colors.white,
               child: TextField(
+                maxLines: 20,
                 onChanged: (value) {
                   print(value);
                   saveNoteBody();

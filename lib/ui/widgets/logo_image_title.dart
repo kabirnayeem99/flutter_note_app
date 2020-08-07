@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_note_app/constants.dart';
 
 class LogoImageTitle extends StatelessWidget {
-  const LogoImageTitle({
-    Key key, this.height, this.width
-  }) : super(key: key);
+  const LogoImageTitle({Key key, this.height, this.width}) : super(key: key);
 
   final double height;
   final double width;

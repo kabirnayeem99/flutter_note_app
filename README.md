@@ -1,12 +1,12 @@
 # MalUsa ![Build Status](https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/passing.svg)
 
 <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/assets/images/notepad.svg" height="100px"/> <br>
-A minimal cross-platform note-taking application built with Flutter.
+A simple cross-platform note-taking application, so simple that you will find it hilarious and hilariously is built with Flutter.
 
 # Screenshots:
-<img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/NoNotesScreen.png" height="400px"/> <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/NotesListScreen.png" height="400px"/> 
+<img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/NotesListScreen.png" height="400px"/> <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/WriteNoteScreen.png" height="400px"/> 
 
-<img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/WriteNoteScreen.png" height="400px"/> 
+<img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/Dialog.png" height="400px"/> <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/NoteGetsDeleted.png" height="400px"/> 
 
 ## Download
 <a href="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/app-release.apk">

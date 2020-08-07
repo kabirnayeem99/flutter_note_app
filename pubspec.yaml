@@ -18,7 +18,8 @@ dependencies:
   path: any
   path_provider: any
   # Provides internationalization and localization facilities
-  intl: ^0.16.1
+  intl: ^0.16.0
+  fleva_icons: any
 
 dev_dependencies:
   flutter_test:
