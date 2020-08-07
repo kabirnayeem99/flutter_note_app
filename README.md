@@ -9,7 +9,7 @@ A simple cross-platform note-taking application, so simple that you will find it
 <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/Dialog.png" height="400px"/> <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/NoteGetsDeleted.png" height="400px"/> 
 
 ## Download
-<a href="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/app-release.apk">
+<a href="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/malusa_note_app.apk">
 <img alt="Download Direct APK" src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/github-logo.png" height="50px"/></a> Download direct APK.
 
 ## App Icon
