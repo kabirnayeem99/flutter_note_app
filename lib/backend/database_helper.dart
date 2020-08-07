@@ -55,9 +55,9 @@ class DatabaseHelper {
   }
 
   void _createDatabase(Database db, int newVersion) async {
-    await db.execute(
-      "CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $noteBody TEXT)",
-    );
+    String createDatabase =
+        "CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $noteBody TEXT)";
+    await db.execute(createDatabase);
     print("$noteTable was created");
   }
 
@@ -98,8 +98,9 @@ class DatabaseHelper {
 
   Future<int> deleteNoteFromDb(int id) async {
     Database db = await this.database;
-    int result =
-        await db.rawDelete("delete from $noteTable where $colId = $id");
+    String deleteQuery = "delete from $noteTable where $colId = $id";
+
+    int result = await db.rawDelete(deleteQuery);
     return result;
   }
 
