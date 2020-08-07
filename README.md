@@ -4,7 +4,7 @@
 A simple cross-platform note-taking application, so simple that you will find it hilarious and hilariously is built with Flutter.
 
 # Screenshots:
-<img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/NotesListScreen.png" height="400px"/> <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/WriteNoteScreen.png" height="400px"/> 
+<img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/NotesListScreenShot.png" height="400px"/> <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/WriteNoteScreenShot.png" height="400px"/> 
 
 <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/Dialog.png" height="400px"/> <img src="https://github.com/kabirnayeem99/flutter_note_app/raw/master/project_assets/Screenshots/NoteGetsDeleted.png" height="400px"/> 
 
